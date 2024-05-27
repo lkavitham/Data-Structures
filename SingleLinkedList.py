@@ -24,7 +24,7 @@ class SingleLinkedList:
         while p is not None:
             n += 1
             p = p.link
-        print("No. of nodes in the list is : ")
+        print("No. of nodes in the list is : ",n)
 
     def search_nodes(self, x):
         p = self.start
@@ -43,6 +43,9 @@ class SingleLinkedList:
 
     def insert_end(self, data):
         temp = Node(data)
+        if self.start is None:
+            self.start = temp
+            return
         p = self.start
         while p.link is not None:
             p = p.link
@@ -132,13 +135,13 @@ while True:
     print("12.Reverse the list")
     print("13.Quit")
 
-    option = int(input("Enter your choice"))
+    option = int(input("Enter your choice : "))
     if option == 1:
         list.display()
     elif option == 2:
         list.count_nodes()
     elif option == 3:
-        data = ("Enter the element to be searched : ")
+        data =("Enter the element to be searched : ")
         list.search_nodes(data)
     elif option == 4:
         data = int(input("Enter the element to be inserted : "))
@@ -148,14 +151,16 @@ while True:
         list.insert_end(data)
     elif option == 6:
         data = int(input("Enter the element to be inserted : "))
-        k = int(input("Enter the position at which toinsert : "))
-        list.insert_position(data)
-    elif option == 5:
+        k = int(input("Enter the position at which the element to be insert : "))
+        list.insert_position(data,k)
+    elif option == 7:
         data = int(input("Enter the element to be inserted : "))
-        list.insert_after(data)
-    elif option == 5:
+        x=int(input("Enter the position after which element to be inserted"))
+        list.insert_after(data,x)
+    elif option == 8:
         data = int(input("Enter the element to be inserted : "))
-        list.insert_before(data)
+        x=int(input("Enter the position before which element to be inserted "))
+        list.insert_before(data,x)
     elif option == 9:
         list.del_bef()
     elif option == 10:
