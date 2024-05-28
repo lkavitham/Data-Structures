@@ -28,9 +28,12 @@ class SingleLinkedList:
 
     def search_nodes(self, x):
         p = self.start
+        position=1
         while p is not None:
             if p.info == x:
+                print("Element is found at position : ",position)
                 return True
+            position+=1
             p = p.link
         else:
             print("Element is not found")
@@ -82,7 +85,23 @@ class SingleLinkedList:
                 p.link = temp
 
     def insert_before(self, data, x):
-        pass
+        if self.start is None:
+            print("List is empty")
+        if x==1:
+            temp=Node(data)
+            temp.link=self.start
+            self.start=temp
+        temp=Node(data)
+        p=self.start
+        while p.link is not None:
+            if p.link.info==x:
+                break
+            p=p.link
+            if p.link is None:
+                print("Element is not found")
+            else:
+                temp.link=p.link
+                p.link=temp
 
     def create_list(self):
         n = int(input("No. of nodes : "))
@@ -115,6 +134,7 @@ class SingleLinkedList:
             next = p.link
             p.link = prev
             prev = p
+            p=next
         self.start = prev
 
 
