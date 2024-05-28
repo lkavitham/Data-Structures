@@ -67,10 +67,10 @@ class DoubleLinkedLise:
             if p is None:
                 print("Element is not present")
             else:
-                temp=Node(data)
                 temp.prev=p
                 temp.next=p.next
-                p.next.prev=temp
+                if p.next is not None:
+                    p.next.prev=temp
                 p.next=temp
 
     def insert_before(self,data):
