@@ -63,9 +63,31 @@ class HashTable:
         return None
 
     def display_table(self):
-        pass
+        for i in range(self.m):
+            print("[", end='');
+            print(i, end='');
+            print("]", end='')
+
+            if self.array[i] is not None and self.array[i].get_student_id() != -1:
+                print(self.array[i])
+            else:
+                print("______")
+
     def delete(self,key):
-        pass
+        h = self.hash1(key)
+        location = h
+        for i in range(1, self.m):
+            if self.array[location] is None:
+                return None
+            if self.array[location].get_student_id(0) == key:
+                temp = self.array[location]
+                self.array[location].set_student_id(-1)
+                self.n -= 1
+                return temp
+            location = (h + i) % self.m
+
+        return None
+
 size=int(input("Enter initial size of table : "))
 table=HashTable(size)
 
