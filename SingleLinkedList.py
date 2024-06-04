@@ -125,7 +125,21 @@ class SingleLinkedList:
         p.link = None
 
     def del_node(self):
-        pass
+        if self.start is None:
+            print("List is empty")
+            return
+        if self.start.info == x:
+            self.start = self.start.link
+            return
+        p = self.start
+        while p.link is not None:
+            if p.link.info == x:
+                break
+            p = p.link
+        if p.link is None:
+            print("Element ", x, "not in list")
+        else:
+            p.link = p.link.link
 
     def reverse(self):
         p = self.start
