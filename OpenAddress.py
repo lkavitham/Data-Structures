@@ -74,12 +74,14 @@ class HashTable:
                 print("______")
 
     def delete(self,key):
-        h = self.hash1(key)
+        h = self.hash(key)
         location = h
-        for i in range(1, self.m):
+
+        for i in range(self.m):
             if self.array[location] is None:
                 return None
-            if self.array[location].get_student_id(0) == key:
+
+            if self.array[location].get_student_id() == key:
                 temp = self.array[location]
                 self.array[location].set_student_id(-1)
                 self.n -= 1
