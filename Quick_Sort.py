@@ -1,4 +1,5 @@
 def quick_sort(a):
+    #Calls the sort function with the initial boundaries of the list (0 to len(a) - 1)
     sort(a,0,len(a)-1)
 
 def sort(a,low,up):
