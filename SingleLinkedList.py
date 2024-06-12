@@ -26,6 +26,7 @@ class SingleLinkedList:
             p = p.link
         print("No. of nodes in the list is : ",n)
 
+    #this is used to search the elements
     def search_nodes(self, x):
         p = self.start
         position=1
