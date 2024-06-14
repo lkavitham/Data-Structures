@@ -39,7 +39,8 @@ class SingleLinkedList:
         else:
             print("Element is not found")
             return False
-
+    
+    #This is used to insert the element
     def insert_beg(self, data):
         temp = Node(data)
         temp.link = self.start
@@ -111,7 +112,8 @@ class SingleLinkedList:
         for i in range(n):
             data = int(input("Enter teh element to be inserted : "))
             self.insert_end(data)
-
+            
+     #This is used to delete a node
     def del_bef(self):
         if self.start is None:
             print("List is empty")

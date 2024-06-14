@@ -1,0 +1,17 @@
+class Stack:
+    def __init__(self):
+        self.items = []
+
+    def pop(self):
+        if not self.items:
+            return None  
+        return self.items.pop()
+
+if __name__ == "__main__":
+    stack = Stack()
+    stack.items = ["Hello","how","are","you"]   
+    print(stack.pop())
+    print(stack.pop())
+    print(stack.pop())
+    print(stack.pop())
+    
