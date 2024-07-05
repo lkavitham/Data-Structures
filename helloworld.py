@@ -6,3 +6,4 @@ class HelloWorld:
 
 word=HelloWorld("Hello World")
 word.display()
+
