@@ -178,7 +178,7 @@ while True:
     elif option == 2:
         list.count_nodes()
     elif option == 3:
-        data =("Enter the element to be searched : ")
+        data =int(input("Enter the element to be searched : "))
         list.search_nodes(data)
     elif option == 4:
         data = int(input("Enter the element to be inserted : "))
