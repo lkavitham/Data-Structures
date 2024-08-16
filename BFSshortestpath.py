@@ -1,14 +1,19 @@
+from sys import maxsize as INFINITY
+
 INITIAL=0
 WAITING=1
 VISITED=2
 
-class vertex:
+class Vertex:
     def __init__(self,name):
         self.name=name
+        self.state = INITIAL
+        self.predecessor = None
+        self.distance = INFINITY
 
 class BFS:
     def __init__(self,size=20):
-        self.adj=[[ 0 for column in range(size)] for row in range(size)]
+        self.adj=[[0 for column in range(size)] for row in range(size)]
         self.n=0
         self.verticesList=[]
 
@@ -18,8 +23,7 @@ class BFS:
                 print(self.adj[i][j],end='')
             print()
 
-
-    def numVerticies(self):
+    def numVertices(self):
         return self.n
 
     def numEdges(self):
@@ -31,47 +35,47 @@ class BFS:
         return e
 
     def Vertices(self):
-        return [vertex.name for vertex in self.verticesList]
+        return [Vertex.name for Vertex in self.verticesList]
 
     def Edges(self):
         edges=[]
         for i in range(self.n):
             for j in range(self.n):
                 if self.adj[i][j]!=0:
-                    edges.append((self.verticesList[i].name, self.verticesList[j].name))
+                    edges.append((self.verticesList[i].name,self.verticesList[j].name))
         return edges
     
     def getIndex(self,s):
         index=0
-        for name in(vertex.name for vertex in self.verticesList):
+        for name in (Vertex.name for Vertex in self.verticesList):
             if s==name:
                 return index
             index+=1
-        return index
-    
+        return None
+                
     def insertVertex(self,name):
-        if name in (vertex.name for vertex in self.verticesList):
-            print("Vertex is already present")
+        if name in (Vertex.name for Vertex in self.verticesList):
+            print("Vertex is alrady present")
             return
-        self.verticesList.append(vertex(name))
+        self.verticesList.append(Vertex(name))
         self.n+=1
 
     def insertEdge(self,s1,s2):
         u=self.getIndex(s1)
         v=self.getIndex(s2)
-
+        
         if u is None:
             print("Start vertex is not present")
         elif v is None:
             print("End vertex is not present")
         elif u==v:
-            print("Invalid")
+            print("invalid")
         elif self.adj[u][v]!=0:
             print("Edge is already present")
         else:
             self.adj[u][v]=1
 
-    def deleteEdge(self,s1,s2):
+    def removeEdge(self,s1,s2):
         u=self.getIndex(s1)
         v=self.getIndex(s2)
 
@@ -80,17 +84,17 @@ class BFS:
         elif v is None:
             print("End vertex is not present")
         elif u==v:
-            print("Invalid")
+            print("invaid")
         elif self.adj[u][v]==0:
-            print("Edge is not already present")
+            print("Edge is not present")
         else:
             self.adj[u][v]=0
 
-    def deleteVertex(self,s):
+    def removeVertex(self,s):
         u=self.getIndex(s)
         if u is None:
             print("Vertex is not present")
-            return
+            return 
         self.adj.pop(u)
         for i in range(self.n):
             self.adj[i].pop(u)
@@ -100,25 +104,27 @@ class BFS:
     def isAdjacent(self,s1,s2):
         u=self.getIndex(s1)
         v=self.getIndex(s2)
+
         if u is None:
-            print("Vertex is not present")
+            print("Start vertex is not found")
         elif v is None:
-            print("Vetex is not present")
+            print("End vertex is not found")
         elif u==v:
-            print("Invaild")
+            print("invalid")
         else:
             return False if self.adj[u][v]==0 else True
 
     def outDegree(self,s):
         u=self.getIndex(s)
         if u is None:
-            print("Vetex is not present")
+            print("Vertex is not present")
             return
         outd=0
         for v in range(self.n):
             if self.adj[u][v]!=0:
-                outd+=1            
-        
+                outd+=1
+        return outd
+
     def inDegree(self,s):
         u=self.getIndex(s)
         if u is None:
@@ -128,37 +134,71 @@ class BFS:
         for v in range(self.n):
             if self.adj[v][u]!=0:
                 ind+=1
+        return ind
 
     def bfsTraversal(self):
-        s=input("Enter starting vertex")
+        s=input("Enter the start vertex")
         u=self.getIndex(s)
         if u is None:
             print("Vertex is not present")
             return
         for v in range(self.n):
             self.verticesList[v].state=INITIAL
-        
         self.bfs(u)
+
+    def findShortestPath(self,s):
+        u=self.getIndex(s)
+        if u is None:
+            print("Vertex is not found")
+            return
+        
+        for v in range(self.n):
+            self.verticesList[v].state=INITIAL
+            self.verticesList[v].predecessor=None
+            self.verticesList[v].distance=INFINITY
+        self.bfs(u)
+
+        for v in range(self.n):
+            if self.verticesList[v].distance==INFINITY:
+                print("No path from vertex ",s," to vertex ",self.verticesList[v].name)
+            else:
+                print("Shortest path from vertex ",s," to vertex ",self.verticesList[v].name," is ",self.verticesList[v].distance)
+                path = []
+                x = v
+                while x is not None:
+                    path.append(x)
+                    x = self.verticesList[x].predecessor
+            
+                path.reverse()
+                print("Shortest path is: ", end="")
+                for i in range(len(path) - 1):
+                    print(self.verticesList[path[i]].name, "->", end="")
+                    print(self.verticesList[path[-1]].name)
 
     def bfs(self,v):
         from queue import Queue
         qu=Queue()
         qu.put(v)
         self.verticesList[v].state=WAITING
+        self.verticesList[v].distance=0
+        self.verticesList[v].predecessor=None
 
         while qu.qsize()!=0:
             v=qu.get()
             print(self.verticesList[v].name," ")
             self.verticesList[v].state=VISITED
 
-            for i in range(self.n):
-                if self.adj[v][i]!=0 and self.verticesList[i].state==INITIAL:
-                    qu.put(i)
-                    self.verticesList[i].state=WAITING
+        for i in range(self.n):
+            if self.adj[v][i]!=0 and self.verticesList[i].state==INITIAL:
+                qu.put(i)
+                self.verticesList[i].state=WAITING
+                self.verticesList[i].predecessor=v
+                self.verticesList[i].distance=self.verticesList[v].distance+1
         print()
 
+
     def bfsAll(self):
-        s=input("Enter starting Vertex: ")
+        s=input("Enter the vertex : ")
         u=self.getIndex(s)
         if u is None:
             print("Vertex is not present")
@@ -203,12 +243,4 @@ if __name__=="__main__":
     g.insertEdge("Seven","Eight")
     g.insertEdge("Eight","Nine")
 
-    print("Adjacency Matix - ")
-    g.display()
-    print("List of vertices - ")
-    print(g.Vertices())
-    print("List of edges - ")
-    print(g.Edges())
-
-    g.bfsTraversal()
-    g.bfsAll()
+    g.findShortestPath("Two")
